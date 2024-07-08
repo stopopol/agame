@@ -1,4 +1,13 @@
-with open('getcapabilities.xml') as fd:
+!pip install deims
+
+import uuid
+import json
+import xmltodict
+import deims
+import datetime 
+import os
+
+with open('getcapabilities_1.3.0.xml') as fd:
     doc = xmltodict.parse(fd.read())
 
 for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
@@ -6,11 +15,16 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
     record_uuid = str(uuid.uuid4())
     
     # add 'e-shape' as keyword to every layer
-    keywords_to_be_printed = [{"value": "H2020 e-shape"}]
+    keywords_to_be_printed = []
     authors = None
+    check_if_e_shape = False
     # process keywords for site information and temporal extent
     for keyword in layer['KeywordList']['Keyword']:
         uri = None
+
+        if "project: e-shape" in keyword:
+            check_if_e_shape = True
+        
         
         if "variable: " in keyword:
             data_product_type = keyword[10:]
@@ -65,7 +79,7 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
             deims_suffix = keyword[6:]
             site_record = deims.getSiteById(deims_suffix)
             continue
-        if "https://doi.org/" in keyword: 
+        if "https://doi.org/" in keyword:
             doi = {
                 "name": "B2Share",
                 "description": "Download data on B2Share",
@@ -99,7 +113,12 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
             }
        
         keywords_to_be_printed.append(formatted_keyword)
- 
+
+
+
+    if check_if_e_shape is False:
+        continue
+    
     # fetch EPSG code    
     for value in layer['CRS']:
         if "EPSG:" in value:
@@ -117,7 +136,7 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
         "type": "signpost",
         "title": layer['Title'],
         "description": layer['Abstract'], # we could add a sentence that the metadata record was generated automatically
-        "metadataDate": str(datetime.now()),
+        "metadataDate": str(datetime.datetime.now()),
         "resourceIdentifiers": {"code": "https://catalogue.lter-europe.net/id/" + record_uuid},
         "descriptiveKeywords": [{"keywords": keywords_to_be_printed}],
         "responsibleParties": authors,
@@ -183,7 +202,7 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
         "authors": authors
     }
 
-    filename= record_uuid + ".json"
+    filename = record_uuid + ".json"
     base_dir = os.getcwd() + '/json_for_dar'
     destination_path = os.path.join(base_dir, filename)
 
