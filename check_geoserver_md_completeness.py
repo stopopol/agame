@@ -1,3 +1,5 @@
+# this script checks the geoserver with the AGAME data layers for their completeness
+
 !pip install xmltodict
 import xmltodict
 
