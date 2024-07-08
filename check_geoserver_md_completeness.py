@@ -10,6 +10,7 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
     check_site = False
     check_doi = False
     check_variable = False
+    check_project = False
 
     # check keywords
     for keyword in layer['KeywordList']['Keyword']:
@@ -21,6 +22,8 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
             check_doi = True
         if "variable:" in keyword:
             check_variable = True
+        if "project:" in keyword:
+            check_project = True
 
     if check_time is False:
         print(layer['Name'] + ' missing time')
@@ -30,3 +33,5 @@ for layer in doc['WMS_Capabilities']['Capability']['Layer']['Layer']:
         print(layer['Name'] + ' missing doi')
     if check_variable is False:
         print(layer['Name'] + ' missing variable')
+    if check_project is False:
+        print(layer['Name'] + ' missing project')
