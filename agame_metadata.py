@@ -1,3 +1,5 @@
+# this script generates metadata records based on the layer information in geoserver; only for e-shape layers
+
 !pip install deims
 
 import uuid
