@@ -1,4 +1,5 @@
 # this script checks the geoserver with the AGAME data layers for their completeness
+# requires the geoserver wms getcapabilities file to be in the same folder 
 
 !pip install xmltodict
 import xmltodict
