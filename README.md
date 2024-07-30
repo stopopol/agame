@@ -6,4 +6,7 @@ This repository contains the code contributions of EAA to the AGAME project - mo
 - The indexer.properties tells GeoServer that datetime information is in the filename
 - The timeregex.properties is tells GeoServer how to extract date information from the geotiff filenames (the last 8 characters contain the date)
 
+- agame_metadata.ipynb generates ISO19139 metadata records to be published in GEOSS
+- check_geoserver_md_completeness.ipynb checks all GeoServer for their metadata completeness 
+
 Juli 2024
