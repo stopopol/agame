@@ -9,6 +9,7 @@ This repository contains the code contributions of EAA to the AGAME project - mo
 
 - agame_metadata_xml.ipynb generates ISO19139 metadata records
 - agame_metadata_json.ipynb generates JSON metadata records for the eLTER invenio instance
-- check_geoserver_md_completeness.ipynb checks all GeoServer layers for their metadata completeness 
+- check_geoserver_md_completeness.ipynb checks all GeoServer layers for their metadata completeness
+- gpp_grey_to_green.sld contains the SLD used to style the GPP layers
 
-August 2024
+November 2024
